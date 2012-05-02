@@ -20,3 +20,8 @@ To install this project on Amazon's Elastic Computing Cloud (EC2), perform these
 12. Start R backend server: cd R-verifier; nohup python R-verifier.py > /tmp/R-verifier.log 2>&1 &
 13. Load public URL in browser:  [example: http://ec2-aa-bb-ccc-ddd.compute-1.amazonaws.com]
 14. Have fun!
+
+Known Issues
+------------
+
+If left unchecked, the /tmp partition will get full.  A cron job that regularly deletes old files will be neccesary to prevent this problem.
