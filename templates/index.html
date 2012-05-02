@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.output {
+  color: white;
+  background: gray;
+  width: 600px;
+  display: none;
+  margin: 5px;
+}
+.pdf {
+  color: white;
+  background: orange;
+  width: 600px;
+  display: none;
+  margin: 5px;
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+  $(".verify").bind("click", function () {
+      $(".output").html("");
+      $(".output").hide();
+      $(".pdf").html("");
+      $(".pdf").hide();
+      $.post("/R", 
+             {"solution": $(".solution").val()},
+             function(data) {
+               for (wait=1000; wait<=5000; wait+=1000) {
+                 window.setTimeout( function () {
+                   output_url = data['output'];
+                   $.get(output_url, function(gdata) {
+                     if ( gdata == "" ) {
+                       return;
+                       }
+                     $(".output").html("<pre>\n" + gdata + "\n</pre>");
+                     $(".output").show();
+                     pdf_url = data['pdf'];
+                     if ($(".pdf").html() === "") {
+                       $(".pdf").html("<a href='" + pdf_url + "' target='_blank'>Click to view PDF output.</a>");
+                       $(".pdf").show();
+                     }
+                   });
+                 }, wait);
+               }
+             }         
+           );
+    });
+});
+</script>
+</head>
+<body>
+<form>
+Solution:<br />
+<textarea class="solution" rows="10" cols="80"></textarea>
+<div class="submit">
+<input type="button" class="verify" value="Verify" />
+</div>
+</form>
+<br />
+<div class="output">
+</div>
+<div class="pdf">
+</div>
+</body>
+</html>
