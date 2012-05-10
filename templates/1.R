@@ -1,0 +1,3 @@
+test.singpath <- function() {
+##TESTS##
+}
